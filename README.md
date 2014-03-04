@@ -34,3 +34,8 @@ dlz "postgres zone" {
     {select ttl, record_type, host, mx_priority, data, resp_person, serial, refresh, retry, expire,  minimum from records where zone = '$zone$'}
     {select zone from xfr_table where zone = '$zone$' and client = '$client$'}";
     };
+    
+    
+
+
+Developer Pavel Sorokin
