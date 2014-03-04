@@ -1,0 +1,62 @@
+ru:
+  activerecord:
+    errors:
+      models:
+        zonename:
+          attributes:
+            a_records:
+              invalid: "Неверно введены параметры A записи"
+            mx_records:
+              invalid: "Неверно указааны парамеры записи"
+            ptr_records:
+              invalid: "Неверно указааны парамеры записи"
+            cname_records:
+              invalid: "Неверно указааны парамеры записи"
+  change_time: 'Время последнего изменения'
+  zone_name: 'Название зоны'
+  ttl: 'Время жизни (ttl - время через которое сервера будут повторно запрашивать информацию о зоне)'
+  zone: 'Зона:'
+  default_ns_server: 'Сервер имён по умолчанию:'
+  zone_nameservers: 'Сервера имён:'
+  zone_domain_name: 'Доменное имя'
+  record_type: 'Тип записи'
+  zone_host: 'Значение'
+  actions: 'Действия'
+  add: 'Добавить'
+  disable: 'Временно отключить'
+  remove: 'Удалить'
+  edit: 'Редактировать'
+  create: 'Создать'
+  apply: 'Применить'
+  activate: 'Активировать'
+  active_records: "Активные записи"
+  disabled_records: "Отключенные записи"
+  record_created_successfull: "Запись успешно создана"
+  record_temporary_disabled: "Запись временно отключена"
+  record_activated: "Запись активирована"
+  record_destroyed: "Запись удалена"
+  record_deleted: "Запись удалена"
+  add_zone: "Добавить Зону"
+  access_denied: "Доступ запрещен"
+  activerecord:
+    errors:
+      messages:
+        record_invalid: "Запись неверна"
+      models:
+        zonename:
+          attributes:
+            name:
+              invalid: "Введено некорректное имя"
+  devise:
+    omniauth_callbacks:
+      success: "Авторизация успешно пройдена"
+  record:
+    type: 'Тип записи'
+    data: 'Данные'
+    value: 'Доменное имя'
+    updated_successfully: "Запись успешно обновлена"
+  zona:
+    updated: "Зона успешно обновлена"
+    not_updated: "При обновлении возникли ошибки"
+    created_successfull: "Зона успешно создана, теперь нужно добавить записи"
+  mx_priority: "MX приоритет"

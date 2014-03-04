@@ -1,0 +1,9 @@
+=form_for @rec, :url => { :action => "create" } do |f|
+        =f.label t('record.type')
+        =f.select(:record_type, options_for_select([["TXT","TXT"], ["A","A"], ["MX", "MX"], ["CNAME","CNAME"], ["PTR","PTR"], ["NS", "NS"]]))
+        =f.label t('record.value')
+        =f.text_field :host
+        =f.label t('record.data')
+        =f.text_area(:data)
+        %p
+        =f.submit t(:create), :class => 'btn btn-success'

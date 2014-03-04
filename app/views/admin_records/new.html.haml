@@ -1,0 +1,40 @@
+=content_for :head do
+  :javascript
+    var ChangeForm = function() {alert('hello world');};
+
+
+%body
+  %div.container
+    %div.masthead
+      %h3.muted DNS Zone editor
+      %div.navbar
+        %div.navbar-inner
+          %div.container
+            %ul.nav
+              %li.active
+                %a{:href => '/'} Home
+    %ul.breadcrumb
+      %li
+        %a{:href => '/'} Home
+        %span.divider /
+      %li
+        =link_to @zone.name, admin_path(@zone.id)
+        %span.divider /
+      %li
+        =link_to t(:record_creation), new_admin_admin_record_path(@zone.id)
+    %div.hero-unit
+      %h2
+        =t(:record_creation_for_zone)+" "+@zone.name
+
+      =form_for @rec, :url => { :action => "create" } do |f|
+        =f.label t('record.type')
+        =f.select :record_type, options_for_select([["A","A"], ["MX", "MX"], ["CNAME","CNAME"], ["TXT","TXT"], ["PTR","PTR"], ["NS", "NS"], ["AAAA", "AAAA"]])
+        =f.label t('record.value')
+        =f.text_field :host, :value => '@'
+        =f.label t('record.data')
+        %div#numeru
+          =f.text_field(:data)
+
+        =#f.text_area(:ttl)
+        =f.submit t(:create), :class => 'btn btn-success'
+      =link_to t(:back), :back, :class => 'btn btn-primary'

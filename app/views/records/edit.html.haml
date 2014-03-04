@@ -1,0 +1,55 @@
+
+%body
+  %div.container
+    %div.masthead
+      %h3.muted DNS Zone editor
+      %div.navbar
+        %div.navbar-inner
+          %div.container
+            %ul.nav
+              %li.active
+                %a{:href => '/'} Home
+    %ul.breadcrumb
+      %li
+        %a{:href => '/'} Home
+        %span.divider /
+      %li
+        =link_to @zone.name, name_path(@zone.id)
+        %span.divider /
+      %li
+        =link_to t(:record_editing), new_name_record_path(@zone.id)
+    %div.hero-unit
+      %h2
+        =t(:record_editing_for_zone)+" "+@zone.name
+      %ul{:style=>'list-style:none;'}
+        %li
+          =t(:zone)
+          %b
+            =@soa_record.zone
+        %li
+          TTL:
+          %b
+            =@soa_record.ttl
+        %li
+          =t(:default_ns_server)
+          %b
+            =@soa_record.data
+
+      =form_for :record, :url => { :action => "update" }, :method => 'PUT', :html => {:id => 'edit_record'} do |f|
+        =f.label t('record.type')
+        =f.text_field :record_type, :value => @record.record_type.to_s, :readonly => true
+        - if @record.record_type.to_s == 'A'
+          =f.label t('record.value')
+          =f.text_field :host, :value =>  @record.host == '@' ? '' : @record.host
+        - if @record.record_type.to_s == 'MX'
+          =f.label t(:mx_priority)
+          =f.select :mx_priority, options_for_select([['10','10'],['20','20'],['30','30'],['40','40'],['50','50']], @record.mx_priority)
+        =f.label t('record.data')
+        %div#numeru
+        - if @record.record_type.to_s == "TXT"
+          = f.text_area(:data)
+        - else
+          = f.text_field(:data)
+        =#f.text_area(:ttl)
+        %p
+          =f.submit t(:apply), :class => 'btn btn-success'

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dns</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <%= yield :head %>
+</head>
+<body>
+<% [:notice, :error, :alert, :warning].each do |level| %>
+    <% unless flash[level].blank? %>
+
+<div class="container">
+        <div class="alert alert-<%= flash_class(level) %>">
+          <a href="#" class="close" data-dismiss="alert">×</a>
+          <%= content_tag :p, flash[level] %>
+        </div>
+</div>
+    <% end %>
+<% end %>
+<%= yield %>
+
+</body>
+</html>

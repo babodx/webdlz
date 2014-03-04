@@ -1,0 +1,25 @@
+%body
+  %div.container
+    %div.masthead
+      %h3.muted DNS Zone editor
+      %div.navbar
+        %div.navbar-inner
+          %div.container
+            %ul.nav
+              %li.active
+                %a{:href => '/'} Home
+
+
+    %ul.breadcrumb
+      %li
+        %a{:href => '/'} Home
+
+    %div.hero-unit
+      =form_for :rec, :url => {:controller => 'names', :action => 'create'} do |form|
+        =form.label(t(:zone_name))
+        =form.text_field(:name)
+        =form.label(t(:ttl))
+        =form.select :ttl, options_for_select([['3 hours','10800'],['6 hours','21600'],['24 hours','86400'],['3 days','259200']])
+        %p
+        =form.button t(:create), :class => 'btn btn-success'
+      =link_to t(:back), :back, :class => 'btn btn-primary'

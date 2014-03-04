@@ -1,0 +1,210 @@
+%body
+  %div.container
+    %div.masthead
+      %h3.muted DNS Zone editor
+      %div.navbar
+        %div.navbar-inner
+          %div.container
+            %ul.nav
+              %li.active
+                %a{:href => '/'} Home
+
+    %ul.breadcrumb
+      %li
+        %a{:href => '/'} Home
+        %span.divider /
+      %li
+        %a{:href => admin_path}
+          =@zone.name
+
+    %div.hero-unit
+      %ul{:style=>'list-style:none;'}
+        %li
+          =t(:zone)
+          %b
+            =@soa_record.zone
+          =link_to image_tag("edit.png"), edit_admin_path(@zone), :title => t(:edit), :class => 'red-tooltip', :style => 'padding-left:50px;'
+        %li
+          TTL:
+          %b
+            =@soa_record.ttl
+        %li
+          =t(:default_ns_server)
+          %b
+            =@soa_record.data
+        %li
+          =t(:zone_nameservers)
+          %b
+            -@ns_records.each do |rec|
+              =rec.data
+        %li
+          =t(:change_time)+":"
+          %b
+            =Time.at(@soa_record.serial.to_i).strftime('%Y-%m-%d %H:%M:%S')
+      %h2{:onclick => "$('.table').eq(0).toggle();"}
+        =t(:active_records)
+      %table.table.table-hover
+        %tr
+          %th
+            =t(:zone_domain_name)
+          %th
+            =t(:record_type)
+          %th
+            =t(:zone_host)
+          %th
+            =t(:mx_priority)
+          %th
+            =t(:actions)
+        -@ns_records.each do |x|
+          %tr
+            %td
+              = x.host
+            %td
+              = x.record_type
+            %td
+              = x.data
+            %td
+              =x.mx_priority
+            %td
+              =link_to image_tag("disable.png"), admin_admin_record_disable_path(@zone,x),:title => t(:disable), :class => 'red-tooltip'
+              =link_to image_tag("edit.png"), edit_admin_admin_record_path(@zone,x), :title => t(:edit), :class => 'red-tooltip'
+              =link_to image_tag("delete.png"),  admin_admin_record_path(@zone,x),:title => t(:remove), :class => 'red-tooltip', :method => :delete, :confirm => "Вы уверены?"
+              =#link_to t(:remove),  {:controller => 'records', :action => 'destroy', :name_id => @zone.id, :id => x.id}, :method => :delete
+        -@mx_records.each do |x|
+          %tr
+            %td
+              = x.host
+            %td
+              = x.record_type
+            %td
+              = x.data
+            %td
+              =x.mx_priority
+            %td
+              =link_to image_tag("disable.png"), admin_admin_record_disable_path(@zone,x), :title => t(:disable), :class => 'red-tooltip'
+              =link_to image_tag("edit.png"), edit_admin_admin_record_path(@zone,x), :title => t(:edit), :class => 'red-tooltip'
+              =link_to image_tag("delete.png"), admin_admin_record_path(@zone,x), :title => t(:remove), :class => 'red-tooltip', :method => :delete, :confirm => "Вы уверены?"
+              =#link_to t(:remove),  {:controller => 'admin_records', :action => 'destroy', :name_id => @zone.id, :id => x.id}, :method => :delete
+        -if !@txt_records.nil?
+          -@txt_records.each do |x|
+            %tr
+              %td
+                = x.host
+              %td
+                = x.record_type
+              %td
+                = x.data
+              %td
+                =x.mx_priority
+              %td{:style => 'min-width:200px;'}
+                =link_to image_tag("disable.png"), admin_admin_record_disable_path(@zone,x), :title => t(:disable), :class => 'red-tooltip'
+                =#link_to t(:remove),  {:controller => 'admin_records', :action => 'destroy', :name_id => @zone.id, :id => x.id}, :method => :delete
+                =link_to image_tag("edit.png"), edit_admin_admin_record_path(@zone,x), :title => t(:edit), :class => 'red-tooltip'
+                =link_to image_tag("delete.png"),  admin_admin_record_path(@zone,x), :title => t(:remove), :class => 'red-tooltip', :method => :delete, :confirm => "Вы уверены?"
+        -if !@aaaa_records.nil?
+          -@aaaa_records.each do |x|
+            %tr{:style => 'display:table-row;'}
+              %td
+                = x.host
+              %td
+                = x.record_type
+              %td
+                = x.data
+              %td
+                =x.mx_priority
+              %td{:style => 'min-width:200px;'}
+                =link_to image_tag("disable.png"), admin_admin_record_disable_path(@zone,x), :title => t(:disable), :class => 'red-tooltip'
+                =#link_to t(:remove),  {:controller => 'admin_records', :action => 'destroy', :name_id => @zone.id, :id => x.id}, :method => :delete
+                =link_to image_tag("edit.png"), edit_admin_admin_record_path(@zone,x), :title => t(:edit), :class => 'red-tooltip'
+                =link_to image_tag("delete.png"),  admin_admin_record_path(@zone,x), :title => t(:remove), :class => 'red-tooltip', :method => :delete, :confirm => "Вы уверены?"
+        -if !@cname_records.nil?
+          -@cname_records.each do |x|
+            %tr
+              %td
+                = x.host
+              %td
+                = x.record_type
+              %td
+                = x.data
+              %td
+                =x.mx_priority
+              %td{:style => 'min-width:200px;'}
+                =link_to image_tag("disable.png"), admin_admin_record_disable_path(@zone,x), :title => t(:disable), :class => 'red-tooltip'
+                =#link_to t(:remove),  {:controller => 'admin_records', :action => 'destroy', :name_id => @zone.id, :id => x.id}, :method => :delete
+                =link_to image_tag("edit.png"), edit_admin_admin_record_path(@zone,x), :title => t(:edit), :class => 'red-tooltip'
+                =link_to image_tag("delete.png"),  admin_admin_record_path(@zone,x), :title => t(:remove), :class => 'red-tooltip', :method => :delete, :confirm => "Вы уверены?"
+        -if @ptr_records.count > 0
+          %tr{:style=>"border-top:4px solid"}
+            %th
+              =t(:zone_host)
+            %th
+              =t(:record_type)
+            %th
+              =t(:zone_domain_name)
+            %th
+              =t(:mx_priority)
+            %th
+              =t(:actions)
+          -@ptr_records.each do |x|
+            %tr
+              %td
+                = x.host
+              %td
+                = x.record_type
+              %td
+                = x.data
+              %td
+                =x.mx_priority
+              %td
+                =link_to image_tag("disable.png"), admin_admin_record_disable_path(@zone,x), :title => t(:disable), :class => 'red-tooltip'
+                =#link_to t(:remove),  {:controller => 'admin_records', :action => 'destroy', :name_id => @zone.id, :id => x.id}, :method => :delete
+                =link_to image_tag("edit.png"), edit_admin_admin_record_path(@zone,x), :title => t(:edit), :class => 'red-tooltip'
+                =link_to image_tag("delete.png"),  admin_admin_record_path(@zone,x),:title => t(:remove), :class => 'red-tooltip', :method => :delete, :confirm => "Вы уверены?"
+        -@a_records.each do |x|
+          %tr
+            %td
+              = x.host
+            %td
+              = x.record_type
+            %td
+              = x.data
+            %td
+              =x.mx_priority
+            %td
+              =link_to image_tag("disable.png"), admin_admin_record_disable_path(@zone,x), :title => t(:disable), :class => 'red-tooltip'
+              =link_to image_tag("edit.png"), edit_admin_admin_record_path(@zone,x), :title => t(:edit), :class => 'red-tooltip'
+              =link_to image_tag("delete.png"),  admin_admin_record_path(@zone,x), :title => t(:remove), :class => 'red-tooltip', :method => :delete, :confirm => "Вы уверены?"
+
+        %hr
+
+      -if @a_records.count.to_i == 0.to_i
+        =t(:this_zone_has_no_records)
+        =button_to t(:add), new_admin_admin_record_path(@zone.id), :method => 'get', :class => 'btn btn-primary', :style => 'margin-left:45%;'
+      -else
+        =button_to t(:add), new_admin_admin_record_path(@zone.id), :method => 'get', :class => 'pull-right btn btn-primary'
+        %hr
+      %h2{:onclick => "$('.table').eq(1).toggle();"}
+        =t(:disabled_records)
+      %table.table.table-hover.disabled
+        %tr
+          %th
+            =t(:zone_domain_name)
+          %th
+            =t(:record_type)
+          %th
+            =t(:zone_host)
+          %th
+            =t(:actions)
+        -@disabled_records.each do |rec|
+          %tr
+            %td
+              = rec.host
+            %td
+              = rec.record_type
+            %td
+              = rec.data
+            %td
+              =link_to image_tag("activate.png"), admin_admin_record_activate_path(@zone,rec),:title => t(:activate), :class => 'red-tooltip'
+              =link_to image_tag("delete.png"),  {:controller => 'admin_records', :action => 'destroy_disabled', :admin_id => @zone.id, :admin_record_id => rec.id}, :method => :get, :confirm => "Вы уверены?", :title => t(:remove), :class => 'red-tooltip'
+              =# rec.id
+              =#link_to t(:edit), edit_admin_admin_record_path(rec,@zone.id)

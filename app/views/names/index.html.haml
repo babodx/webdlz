@@ -1,0 +1,45 @@
+%body
+  %div.container
+    %div.masthead
+      %h3.muted DNS Zone editor
+      %div.navbar
+        %div.navbar-inner
+          %div.container
+            %ul.nav
+              %li.active
+                %a{:href => '/'} Home
+
+    %ul.breadcrumb
+      %li
+        %a{:href => '/'} Home
+
+    %div.hero-unit
+      = link_to_function 'Мои записи', 'ToggleMyrecords();'
+      %table
+        -@zones.each do |x|
+          %tr
+            %td
+              %b
+                = link_to x.name, name_path(x)
+            %td
+              = link_to t(:edit), edit_name_path(x)
+            %td
+              =link_to t(:remove), name_path(x), :method => 'DELETE', :confirm => "Вы уверены?"
+      %hr
+      -if !@user.roles(:name => 'admin').blank?
+        = link_to_function 'Все записи', 'ToggleAllRecords();'
+        = alphabetical_paginate @alphaParams
+        %table{:id => "pagination_table"}
+          -@allzones.each do |x|
+            %tr
+              %td
+                %b
+                  = link_to x.name, admin_path(x)
+              %td
+                = link_to t(:edit), edit_admin_path(x)
+              %td
+                =link_to t(:remove), admin_path(x), :method => 'DELETE', :confirm => "Вы уверены?"
+        =# will_paginate(@allzones)
+    %hr
+      %div.pull-right
+        =link_to t(:add_zone), new_name_path, :class => 'btn btn-primary', :style => 'padding-botom:10px;'

@@ -1,0 +1,44 @@
+%body
+  %div.container
+    %div.masthead
+      %h3.muted DNS Zone editor
+      %div.navbar
+        %div.navbar-inner
+          %div.container
+            %ul.nav
+              %li.active
+                %a{:href => '/'} Home
+    %ul.breadcrumb
+      %li
+        %a{:href => '/'} Home
+        %span.divider /
+      %li
+        %a{:href => name_path}
+          =@zone.name
+    %div.hero-unit
+      %ul{:style=>'list-style:none;'}
+        %li
+          =t(:zone)
+          %b
+            =@soa_record.zone
+        %li
+          TTL:
+          %b
+            =@soa_record.ttl
+        %li
+          =t(:default_ns_server)
+          %b
+            =@soa_record.data
+        %li
+          =t(:zone_nameservers)
+          %b
+            -@ns_records.each do |rec|
+              =rec.data
+      =form_for :rec, :url => {:controller => 'names', :action => 'update'}, :method => 'PUT' do |form|
+        =form.label(t(:zone_name))
+        =form.text_field(:name, :value => @zone.name)
+        =form.label(t(:ttl))
+        =form.select :ttl, options_for_select([['3 hours','10800'],['6 hours','21600'],['24 hours','86400'],['3 days','259200']], @soa_record.ttl)
+        %p
+        =form.button t(:apply), :class => 'btn btn-success'
+      =link_to t(:back), :back, :class => 'btn btn-primary'
